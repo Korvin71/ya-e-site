@@ -1,0 +1,210 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><script type="text/javascript">
+    var gk_isXlsx = false;
+    var gk_xlsxFileLookup = {};
+    var gk_fileData = {};
+    function filledCell(cell) {
+      return cell !== '' && cell != null;
+    }
+    function loadFileData(filename) {
+    if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+        try {
+            var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+            var firstSheetName = workbook.SheetNames[0];
+            var worksheet = workbook.Sheets[firstSheetName];
+
+            // Convert sheet to JSON to filter blank rows
+            var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+            // Filter out blank rows (rows where all cells are empty, null, or undefined)
+            var filteredData = jsonData.filter(row => row.some(filledCell));
+
+            // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+            var headerRowIndex = filteredData.findIndex((row, index) =>
+              row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+            );
+            // Fallback
+            if (headerRowIndex === -1 || headerRowIndex > 25) {
+              headerRowIndex = 0;
+            }
+
+            // Convert filtered JSON back to CSV
+            var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+            csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+            return csv;
+        } catch (e) {
+            console.error(e);
+            return "";
+        }
+    }
+    return gk_fileData[filename] || "";
+    }
+</script><!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Інструменти - Самопізнання через Архетипи | Я є</title>
+    <meta name="description" content="Інструменти самопізнання від Я є: Відгук тіла та Твоя казка для відкриття архетипів через тілесні відчуття.">
+    <meta name="keywords" content="інструменти, самопізнання, архетипи, відгук тіла, твоя казка, психологія">
+    <meta name="robots" content="index, follow">
+    <style>
+        body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; }
+        nav { background: linear-gradient(to right, #4b0082, #800080); color: white; padding: 1rem; position: sticky; top: 0; z-index: 10; }
+        nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        nav h1 { font-size: 1.5rem; font-weight: bold; }
+        nav ul { list-style: none; display: flex; gap: 1rem; }
+        nav a { color: white; text-decoration: none; }
+        nav a:hover { text-decoration: underline; }
+        .section { padding: 4rem 1rem; text-align: center; }
+        .bg-gradient-to-r { background: linear-gradient(to right, #4b0082, #800080); }
+        .text-white { color: white; }
+        .bg-gray-50 { background-color: #f9fafb; }
+        .bg-white { background-color: white; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        h2 { font-size: 2rem; font-weight: bold; margin-bottom: 1.5rem; }
+        h3 { font-size: 1.5rem; font-weight: bold; margin: 2rem 0 1rem; }
+        p { font-size: 1.125rem; margin-bottom: 1rem; }
+        ul, ol { list-style-type: none; text-align: left; max-width: 600px; margin: 0 auto; }
+        li { margin-bottom: 0.5rem; }
+        footer { background: #4b0082; color: white; padding: 1rem; text-align: center; }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <h1>Я є</h1>
+            <ul>
+                <li><a href="index.html">Головна</a></li>
+                <li><a href="archetypes.html">Про архетипи</a></li>
+                <li><a href="about.html">Про мене</a></li>
+                <li><a href="tools.html">Інструменти</a></li>
+                <li><a href="blog.html">Блог</a></li>
+                <li><a href="contact.html">Контакти</a></li>
+                <li><a href="price.html">Прайс</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="bg-gradient-to-r text-white section">
+        <div class="container">
+            <h2>Інструменти для самопізнання</h2>
+            <p>Архетипи не обираються з голови. Вони відчуваються тілом.</p>
+        </div>
+    </section>
+
+    <section class="bg-gray-50 section">
+        <div class="container">
+            <h2>Інструмент: Відгук тіла</h2>
+            <ol>
+                <li>Ти читаєш і фіксуєш кожну тілесну реакцію: мурашки, тепло, напруга, відторгнення.</li>
+                <li>Потім робитш просту рефлексію: “Що зачепило?”, “Де впізнав себе?”, “Що відгукнулось найбільше?”</li>
+                <li>Наприкінці: “Як цей архетип проявляється у моєму житті?” (3 приклади).</li>
+                <li>А ще не потрібно вибирати розумом, тому що я хочу таким бути. Потрібно вибирати тілом, воно обов’язково підкаже.</li>
+                <li>І якщо нічого не зачепило, також нічого страшного, в нас є ще інструменти.</li>
+            </ol>
+
+            <h3>Архетипи – Відгук тіла</h3>
+            <h3>Герой</h3>
+            <p>Він завжди в бою. Він встає після кожного падіння, і його шлях — це боротьба за правду, справедливість і вищі ідеали. Його серце палає від жагою до перемоги, і кожен крок — це вибір: пройти через біль чи залишити все позаду. Він завжди прагне бути першим і кращим, і цей пошук робить його сильнішим, але чи вистачить йому сил зберегти людяність у своїй перемозі?</p>
+
+            <h3>Мудрець</h3>
+            <p>Він бачить більше, ніж інші. Його розум проникливий, і він не боїться шукати відповіді в глибинах власної душі. Він не женеться за славою і не потребує визнання — його мудрість не вимірюється у словах, а у тиші. Але його самотність, часом, здається важчою за будь-який розум.</p>
+
+            <h3>Правитель</h3>
+            <p>Йому підкорюються світи. Він народжений для того, щоб управляти. Його рішучість і сила волі змушують інших діяти, слідувати за ним. Проте за кожним рішенням ховається страх — страх втратити контроль. Чи знайде він баланс між владою і обов’язком?</p>
+
+            <h3>Творець</h3>
+            <p>Він створює світ. Його розум постійно у пошуках нового — нових форм, нових ідей. Світ для нього — це простір, в якому можна втілити найсміливіші мрії. Але іноді його уява так сильно забирає його від реальності, що він забуває, що найкраще творіння — це сам ти.</p>
+
+            <h3>Любовник</h3>
+            <p>Він палає пристрастю. Його серце розривається від бажання бути з тим, хто його розуміє. Він — це сила емоцій, що захоплює все навколо. Кожен дотик, кожен погляд — це магія. Але за цією магією стоїть спустошення: чи може він любити без втрат?</p>
+
+            <h3>Бунтар</h3>
+            <p>Він руйнує все старе. Система не для нього. Він не може просто підкорятися правилам, які диктують інші. Його шлях — це вибір проти течії. Але скільки можна руйнувати, якщо сам починаєш втрачати себе у цій боротьбі?</p>
+
+            <h3>Клоун</h3>
+            <p>Він сміється, щоб не заплакати. Його жарти — це його броня, через яку він ховає біль. Він може змусити сміятися будь-кого, навіть сам себе, але всередині нього є темніші води. Його сміх не завжди означає радість, а іноді — просто втечу від болю.</p>
+
+            <h3>Трікстер</h3>
+            <p>Він завжди на крок попереду. Він грає, маніпулює, перевертає все з ніг на голову — не зі зла, а з інтересу. Він випробовує межі, змушує інших бачити те, що приховано. Йому байдуже до правил, бо він — творець хаосу, який може стати дорогою до істини… або в нікуди. Але за цією грою — глибоке розуміння світу, навіть якщо він нікому про це не скаже.</p>
+
+            <h3>Опікун</h3>
+            <p>Він завжди поруч. Його серце віддане турботі про інших. Він готовий віддати все заради допомоги. Але хто опікується ним? Хто турбується про його душу, коли він віддає себе повністю іншим? Він намагається бути на висоті, але чи вистачить йому сил не забути про себе?</p>
+
+            <h3>Мандрівник</h3>
+            <p>Він шукає шлях. Його подорож нескінченна. Він не боїться змін і готовий іти, куди б не вела його дорога. Але часом він починає сумніватися: чи є ця дорога кінцева, чи просто інший шлях до мети, яка так і не знайдена?</p>
+
+            <h3>Вовк</h3>
+            <p>Один, але не самотній. Він живе за власними законами, не зраджує зграю, але не боїться відокремитись, якщо чує поклик душі. Його інстинкти точні, реакції миттєві. Він може здатися диким — і це правда. Але його дика сутність не про агресію, а про свободу. І коли він вибирає йти поряд — це значить, що він визнав тебе рівним.</p>
+
+            <h3>Олениха</h3>
+            <p>Легка, тиха, глибока. Вона ніби з іншого світу — чуйна, ніжна, але надзвичайно сильна всередині. Її сила не в конфронтації, а в здатності залишатися собою у світі, де всі кричать. Вона не йде проти, вона йде своєю стежкою, і саме тому ніколи не заблукає. Її присутність — це тиша, в якій чути найважливіше.</p>
+
+            <h3>Кішка</h3>
+            <p>Вона нічиє, але завжди поруч. Її не можна підкорити. Вона з’являється, коли хоче, і зникає без пояснень. Її внутрішній світ — таємниця, яку не кожному відкрито. Але якщо вона вибрала тебе — це не випадково. Бо вона бачить крізь усе — і не боїться самотності.</p>
+
+            <h3>Орел</h3>
+            <p>Він бачить згори. Його сила — у погляді, що охоплює простір і суть. Він не занурюється в дрібниці, не втрачає себе у деталях. Він терплячий, мовчазний, небезпечний. Його політ — це не втеча, це спостереження. І коли він зривається в пікірування — це завжди точно в ціль.</p>
+        </div>
+    </section>
+
+    <section class="bg-white section">
+        <div class="container">
+            <h2>Інструмент: Твоя казка</h2>
+            <ol>
+                <li>Напиши коротку історію (1 сторінка) про героя, який проходить випробування.</li>
+                <li>Але герой — це ти. Все у метафорах.</li>
+                <li>Потім аналіз: “Який архетип цей герой уособлює?”, “Яке випробування символізує мій сьогоднішній стан?”</li>
+            </ol>
+        </div>
+    </section>
+
+    <section class="py-16 bg-gray-50 text-center">
+        <div class="container mx-auto">
+            <img src="images/hedgehog.jpg" alt="Hedgehog" class="mx-auto mb-6 max-w-full h-auto">
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2025 Я є. Усі права захищено.</p>
+    </footer>
+</body>
+</html>

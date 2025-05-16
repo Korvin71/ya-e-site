@@ -1,0 +1,215 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><script type="text/javascript">
+    var gk_isXlsx = false;
+    var gk_xlsxFileLookup = {};
+    var gk_fileData = {};
+    function filledCell(cell) {
+      return cell !== '' && cell != null;
+    }
+    function loadFileData(filename) {
+    if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+        try {
+            var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+            var firstSheetName = workbook.SheetNames[0];
+            var worksheet = workbook.Sheets[firstSheetName];
+
+            // Convert sheet to JSON to filter blank rows
+            var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+            // Filter out blank rows (rows where all cells are empty, null, or undefined)
+            var filteredData = jsonData.filter(row => row.some(filledCell));
+
+            // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+            var headerRowIndex = filteredData.findIndex((row, index) =>
+              row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+            );
+            // Fallback
+            if (headerRowIndex === -1 || headerRowIndex > 25) {
+              headerRowIndex = 0;
+            }
+
+            // Convert filtered JSON back to CSV
+            var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+            csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+            return csv;
+        } catch (e) {
+            console.error(e);
+            return "";
+        }
+    }
+    return gk_fileData[filename] || "";
+    }
+</script><!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Про Архетипи - Самопізнання з Я є</title>
+    <meta name="description" content="Дізнайтесь про архетипи та їх значення для самопізнання на проєкті Я є.">
+    <meta name="keywords" content="архетипи, самопізнання, психологія, внутрішня суть, лідер, маг, воїн">
+    <meta name="robots" content="index, follow">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Inter:wght@400&display=swap" rel="stylesheet">
+    <style>
+        .font-lora { font-family: 'Lora', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        .animate-fade-in { animation: fadeIn 1s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        img {
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-white font-inter">
+    <!-- Навігація -->
+    <nav class="bg-indigo-900 text-white p-4 sticky top-0 z-10">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold font-lora">Я є.</h1>
+            <ul class="flex space-x-4">
+                <li><a href="index.html" class="hover:underline">Головна</a></li>
+                <li><a href="archetypes.html" class="hover:underline">Про архетипи</a></li>
+                <li><a href="about.html" class="hover:underline">Про мене</a></li>
+                <li><a href="tools.html" class="hover:underline">Інструменти</a></li>
+                <li><a href="blog.html" class="hover:underline">Блог</a></li>
+                <li><a href="contact.html" class="hover:underline">Контакти</a></li>
+                <li><a href="price.html">Прайс</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Вступ -->
+    <section class="bg-gradient-to-r from-indigo-800 to-purple-900 text-white py-20 text-center animate-fade-in">
+        <div class="container mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold font-lora mb-4">Що таке архетипи?</h2>
+            <p class="text-lg max-w-2xl mx-auto mb-6">Архетипи — це глибинні патерни, які допомагають нам розуміти наші внутрішні сили, стратегії поведінки та способи взаємодії з навколишнім світом.</p>
+        </div>
+    </section>
+
+    <!-- Зображення межовика -->
+    <section class="py-16 bg-gray-50 text-center">
+        <div class="container mx-auto">
+            <img src="images/mezhovyk.jpg" alt="" class="mx-auto mb-6 max-w-full h-auto">
+        </div>
+    </section>
+
+    <!-- Основні архетипи -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto max-w-3xl">
+            <h2 class="text-3xl font-bold font-lora mb-6 text-center">Основні архетипи: Розкриття сил всередині себе</h2>
+            <p class="text-lg mb-4">Архетипи — це глибинні патерни, які допомагають нам розуміти наші внутрішні сили, стратегії поведінки та способи взаємодії з навколишнім світом. Кожен з нас несе в собі ці архетипи, і вони виявляються в різних ситуаціях. Досліджуючи їх, ми можемо не лише краще розуміти себе, а й набувати більшої гнучкості у своїх реакціях та рішеннях.</p>
+            <ol class="space-y-8 text-lg">
+                <li>
+                    <h3 class="text-2xl font-semibold font-lora mb-2">Лідер</h3>
+                    <p class="text-lg mb-2"><strong>Сила:</strong> Воля, рішучість, відвага.</p>
+                    <p class="text-lg mb-2">Лідер — це архетип, що прагне діяти, впливати на навколишній світ і вести за собою інших. Лідери — це природжені організатори та натхненники, здатні втілювати зміни. Вони не бояться відповідальності і часто мають сильне почуття мети. Лідер може надихати на великі досягнення, однак важливо, щоб він не забував про свою відповідальність перед іншими.</p>
+                </li>
+                <li>
+                    <h3 class="text-2xl font-semibold font-lora mb-2">Маг</h3>
+                    <p class="text-lg mb-2"><strong>Сила:</strong> Мудрість, інтуїція, трансформація.</p>
+                    <p class="text-lg mb-2">Маг — це архетип, який шукає глибоке розуміння і шукає способи змінювати світ навколо себе через знання і трансформацію. Вони інтуїтивно відчувають можливості для змін і завжди прагнуть до нових ідей. Маги часто не обмежуються звичними рамками і шукають шлях до глибинних змін як для себе, так і для інших.</p>
+                </li>
+                <li>
+                    <h3 class="text-2xl font-semibold font-lora mb-2">Воїн</h3>
+                    <p class="text-lg mb-2"><strong>Сила:</strong> Сила духу, рішучість, дисципліна.</p>
+                    <p class="text-lg mb-2">Воїн — це архетип, що символізує здатність боротися, захищати і долати труднощі. Він розуміє важливість дисципліни і самовіддачі в досягненні своїх цілей. Воїни часто пов'язані з боротьбою за справедливість, захистом тих, хто слабший, і здатністю зберігати стійкість перед труднощами. Однак важливо не забувати про баланс між боротьбою і внутрішнім миром.</p>
+                </li>
+                <li>
+                    <h3 class="text-2xl font-semibold font-lora mb-2">Любовник</h3>
+                    <p class="text-lg mb-2"><strong>Сила:</strong> Емоції, пристрасть, глибокі зв’язки.</p>
+                    <p class="text-lg mb-2">Любовник — це архетип, що втілює силу емоцій, пристрасті та глибинних зв’язків з іншими людьми. Це архетип близькості, емпатії і готовності відкритися перед іншими. Любовники прагнуть гармонії у стосунках і здатні до глибоких і тривалих зв’язків. Вони також часто шукають сенс і глибину в емоційних переживаннях, важливо лише не впасти в залежність від зовнішніх факторів.</p>
+                </li>
+                <li>
+                    <h3 class="text-2xl font-semibold font-lora mb-2">Дитина</h3>
+                    <p class="text-lg mb-2"><strong>Сила:</strong> Безтурботність, радість, невинність.</p>
+                    <p class="text-lg mb-2">Дитина — це архетип, що символізує почуття захоплення світом, інтуїцію і чистоту погляду на речі. Вона відкривається всьому новому і вірить в можливості без обмежень. Дитина часто має здатність адаптуватися до нових ситуацій, не зважаючи на труднощі. Однак, вона може іноді бути надто наївною і потребує мудрості для справжньої життєвої зрілості.</p>
+                </li>
+                <li>
+                    <h3 class="text-2xl font-semibold font-lora mb-2">Мудрець</h3>
+                    <p class="text-lg mb-2"><strong>Сила:</strong> Розум, знання, спостережливість.</p>
+                    <p class="text-lg mb-2">Мудрець — це архетип, який захоплюється глибокими істинами і має здатність бачити далеко вперед. Це не лише інтелектуальна сила, а й здатність до спокійного розуміння світу. Мудрець шукає сенс в житті і має здатність знаходити рішення там, де інші бачать лише проблему. Важливо не впасти в ізоляцію і не втратити зв’язок з реальним світом.</p>
+                </li>
+                <li>
+                    <h3 class="text-2xl font-semibold font-lora mb-2">Творець</h3>
+                    <p class="text-lg mb-2"><strong>Сила:</strong> Креативність, інновації, майстерність.</p>
+                    <p class="text-lg mb-2">Творець — це архетип, що рухається вперед через інновації і самовираження. Творці завжди шукають нові шляхи для самовираження та створення нового. Вони можуть бути художниками, вченими, інженерами — будь-якими людьми, чия діяльність пов'язана з інноваціями і перетворенням світу. Важливо не забувати про баланс між креативом і рутиною.</p>
+                </li>
+                <li>
+                    <h3 class="text-2xl font-semibold font-lora mb-2">Тінь</h3>
+                    <p class="text-lg mb-2"><strong>Сила:</strong> Темна сторона, потиск обмежень, неусвідомлені аспекти.</p>
+                    <p class="text-lg mb-2">Тінь — це архетип, що відповідає за наші неусвідомлені та часто незручні для нас частини. Це можуть бути страхи, недоліки або навіть темні риси, які ми прагнемо не визнавати. Важливо не ігнорувати тінь, бо це може призвести до внутрішніх конфліктів. Прийняття тіні дозволяє нам стати цілісними і здобути глибше розуміння себе.</p>
+                </li>
+            </ol>
+            <p class="text-lg mt-4">Ці архетипи не є статичними. Вони динамічні й взаємодіють один з одним у кожній людині. Через процес пізнання та самовідкриття ми можемо розвивати свої архетипи, пристосовуючи їх до нових життєвих ситуацій. Це дозволяє не тільки глибше зрозуміти себе, але й відкриває нові можливості для особистого росту і взаємодії з навколишнім світом.</p>
+            <a href="tools.html" class="mt-6 inline-block bg-indigo-600 text-white px-8 py-3 rounded-full hover:bg-indigo-700">Спробувати інструменти</a>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="bg-indigo-900 text-white text-center p-4">
+        <p>© 2025 Я є. Усі права захищено.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                if (e.key === 'c' || e.key === 'C') {
+                    e.preventDefault();
+                }
+            }
+        });
+        document.addEventListener('dragstart', function(e) { e.preventDefault(); });
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><script type="text/javascript">
+    var gk_isXlsx = false;
+    var gk_xlsxFileLookup = {};
+    var gk_fileData = {};
+    function filledCell(cell) {
+      return cell !== '' && cell != null;
+    }
+    function loadFileData(filename) {
+    if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+        try {
+            var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+            var firstSheetName = workbook.SheetNames[0];
+            var worksheet = workbook.Sheets[firstSheetName];
+
+            // Convert sheet to JSON to filter blank rows
+            var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+            // Filter out blank rows (rows where all cells are empty, null, or undefined)
+            var filteredData = jsonData.filter(row => row.some(filledCell));
+
+            // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+            var headerRowIndex = filteredData.findIndex((row, index) =>
+              row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+            );
+            // Fallback
+            if (headerRowIndex === -1 || headerRowIndex > 25) {
+              headerRowIndex = 0;
+            }
+
+            // Convert filtered JSON back to CSV
+            var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+            csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+            return csv;
+        } catch (e) {
+            console.error(e);
+            return "";
+        }
+    }
+    return gk_fileData[filename] || "";
+    }
+</script><!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Про мене - Віктор, Шукач Архетипів | Я є</title>
+    <meta name="description" content="Віктор — Шукач, який допомагає відкрити твої архетипи через особистий досвід і практичні інструменти на проєкті Я є.">
+    <meta name="keywords" content="про мене, самопізнання, архетипи, шукач, психологія, інструменти">
+    <meta name="robots" content="index, follow">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Inter:wght@400&display=swap" rel="stylesheet">
+    <style>
+        .font-lora { font-family: 'Lora', serif; }
+        .font-inter { font-family: 'Inter', sans-serif; }
+        .animate-fade-in { animation: fadeIn 1s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        body {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+        img {
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="bg-white font-inter">
+    <!-- Навігація -->
+    <nav class="bg-indigo-900 text-white p-4 sticky top-0 z-10">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-2xl font-bold font-lora">Я є.</h1>
+            <ul class="flex space-x-4">
+                <li><a href="index.html" class="hover:underline">Головна</a></li>
+                <li><a href="archetypes.html" class="hover:underline">Про архетипи</a></li>
+                <li><a href="about.html" class="hover:underline">Про мене</a></li>
+                <li><a href="tools.html" class="hover:underline">Інструменти</a></li>
+                <li><a href="blog.html" class="hover:underline">Блог</a></li>
+                <li><a href="contact.html" class="hover:underline">Контакти</a></li>
+                <li><a href="price.html">Прайс</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Вступ -->
+    <section class="bg-gradient-to-r from-indigo-800 to-purple-900 text-white py-20 text-center animate-fade-in">
+        <div class="container mx-auto">
+            <h2 class="text-4xl md:text-5xl font-bold font-lora mb-4">Хто я?</h2>
+            <p class="text-lg max-w-2xl mx-auto mb-6">Я — Шукач. Не в сенсі мандрівник із мапою й компасом, а той, хто розгрібає шари пилу з чужих очікувань і знайомиться із собою.</p>
+        </div>
+    </section>
+
+    <!-- Зображення вогнища -->
+    <section class="py-16 bg-gray-50 text-center">
+        <div class="container mx-auto">
+            <img src="images/campfire.jpg" alt="" class="mx-auto mb-6 max-w-full h-auto">
+        </div>
+    </section>
+
+    <!-- Про автора -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto max-w-3xl">
+            <h2 class="text-3xl font-bold font-lora mb-6 text-center"></h2>
+            <p class="text-lg mb-4">Привіт, Шукачу</p>
+            <p class="text-lg mb-4">Раз ти тут — значить, у нас із тобою є дещо спільне: цікавість. Вона не добра й не зла. Вона просто є. І вона — твій двигун у цій реальності.</p>
+            <p class="text-lg mb-4">Мені вже не двадцять. За плечима — всяке. Але це не має значення. Я — просто Людина. Йду своїм шляхом. Не скажу тобі, як жити. Не покажу готову дорогу. Лише вкажу напрям. А стежку прокладеш сам. І тільки ти.</p>
+            <p class="text-lg mb-4">Колись я відчув мурашки від пісні. Потім — від інших слів. Тіло реагувало, а я не надавав цьому значення. Аж поки не дізнався про архетипи. І все стало на свої місця.</p>
+            <p class="text-lg mb-4">Це стало ключем. Почалося найважливіше знайомство — знайомство із собою. Я зрозумів, що жив згідно зі своїм архетипом несвідомо — і не зраджував йому. А тіло свідчило про це — бо тіло не бреше. Мозок може вигадати будь-що. А тіло — ні.</p>
+            <p class="text-lg mb-4">Архетип — це ядро людини. Хтось у це вірить, хтось ні. Але він просто є. У когось один, у когось кілька. Вони можуть змішуватись, змінюватися, але все одно формують твій шлях.</p>
+            <p class="text-lg mb-4">Приймаєш себе — краще розумієш. А отже, краще живеш. Це як вихід із туману. Але страшно. Бо не кожен готовий подивитися на себе без прикрас.</p>
+            <p class="text-lg mb-4">Світло й темрява — усе твоє. Не борись із собою. Прийми. І йди.</p>
+            <p class="text-lg mb-4">Мій шлях почався 22 роки тому, коли я відмовився від алкоголю. Це була точка неповернення. З того часу почалося зростання. Повільне, болюче, але справжнє.</p>
+            <p class="text-lg mb-4">Ці роки я вчився, шукав, пробував — семінари, гуру, курси, успішний успіх і призначення. І що далі, то більше розчарувань. Я біг по колу. Та зрозумів: у кожного — свій шлях. І навіть наймудріший учитель не може пройти його за тебе.</p>
+            <p class="text-lg mb-4">Коли я відкрив архетипи — я почав жити, не просто існувати.</p>
+            <p class="text-lg mb-4">Я не вважаю себе великим чи просвітленим. Просто бачу більше, ніж раніше. І вчуся бачити ще. І це дає мені повноту життя.</p>
+            <p class="text-lg mb-4">Коли ти знайдеш себе — в тебе теж з’явиться ця повнота. Не гарантую ні щастя, ні багатства. Але обіцяю одне: зміни. Ти побачиш реальність чіткіше. Людей — ясніше. І себе — глибше. Хтось піде з твого життя. Хтось залишиться. Але ти вже сам вирішиш, хто тобі потрібен.</p>
+            <p class="text-lg mb-4">А ще буде побічний ефект: бажання почнуть здійснюватись. Може не всі й не одразу. Але точно — твої.</p>
+            <p class="text-lg mb-4">Навіщо я це роблю?</p>
+            <ol class="list-decimal list-inside text-lg mb-4">
+                <li>Щоб допомогти. Але тільки тим, хто сам попросить. Я більше не рятую світ і не лізу зі своїм «добром» до тих, хто не просив.</li>
+                <li>Щоб знайти таких, як я. Для спілкування, обговорення, розвитку. План максимум — спільнота для підтримки таких самих Шукачів.</li>
+                <li>Щоб заробляти. Чесно. Я вкладаю час, сили, досвід — і хочу, щоб це стало справою мого життя. Живою. Дієвою. Не фальшивою.</li>
+            </ol>
+            <p class="text-lg mb-4">Тут буде не лише теорія. Я — практик. І тому буде багато практичних інструментів. Бо просто знати — мало. Треба застосовувати.</p>
+            <p class="text-lg mb-4">Буде і багато спілкування. Теми — найрізноманітніші. Я й сам не знаю, куди це нас приведе. Але точно — вартує спроби. Це поклик мого архетипу. І я не можу не йти.</p>
+            <p class="text-lg mb-4">Тому — я знову саджаю насіння. І вірю, що з нього виросте щось сильне, живе й справжнє.</p>
+            <p class="text-lg mb-4">Якщо хочеш — приєднуйся. Дорога не буде легкою. Але вона буде твоєю.</p>
+            <a href="tools.html" class="mt-6 inline-block bg-indigo-600 text-white px-8 py-3 rounded-full hover:bg-indigo-700">Спробувати інструменти</a>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="bg-indigo-900 text-white text-center p-4">
+        <p>© 2025 Я є. Усі права захищено.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                if (e.key === 'c' || e.key === 'C') {
+                    e.preventDefault();
+                }
+            }
+        });
+        document.addEventListener('dragstart', function(e) { e.preventDefault(); });
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
