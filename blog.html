@@ -47,28 +47,125 @@
     <meta name="keywords" content="блог, самопізнання, архетипи, психологія, внутрішній ріст">
     <meta name="robots" content="index, follow">
     <style>
-        body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; }
-        nav { background: linear-gradient(to right, #4b0082, #800080); color: white; padding: 1rem; position: sticky; top: 0; z-index: 10; }
-        nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-        nav h1 { font-size: 1.5rem; font-weight: bold; }
-        nav ul { list-style: none; display: flex; gap: 1rem; }
-        nav a { color: white; text-decoration: none; }
-        nav a:hover { text-decoration: underline; }
-        .section { padding: 4rem 1rem; text-align: center; }
-        .bg-gradient-to-r { background: linear-gradient(to right, #4b0082, #800080); }
-        .text-white { color: white; }
-        .bg-gray-50 { background-color: #f9fafb; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        h2 { font-size: 2rem; font-weight: bold; margin-bottom: 1.5rem; }
-        h3 { font-size: 1.5rem; font-weight: bold; margin: 2rem 0 1rem; }
-        p { font-size: 1.125rem; margin-bottom: 1rem; }
-        ul, ol { list-style-type: none; text-align: left; max-width: 600px; margin: 0 auto; }
-        li { margin-bottom: 0.5rem; }
-        footer { background: #4b0082; color: white; padding: 1rem; text-align: center; }
-        .post { max-width: 800px; margin: 0 auto 3rem; text-align: left; }
-        .post h3 { font-size: 1.75rem; }
-        .post p { font-size: 1.125rem; line-height: 1.6; }
+        body { 
+            font-family: 'Arial', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            user-select: none; 
+            -webkit-user-select: none; 
+            -moz-user-select: none; 
+            -ms-user-select: none; 
+        }
+        nav { 
+            background: linear-gradient(to right, #4b0082, #800080); 
+            color: white; 
+            padding: 1rem; 
+            position: sticky; 
+            top: 0; 
+            z-index: 10; 
+        }
+        nav .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        nav h1 { 
+            font-size: 1.5rem; 
+            font-weight: bold; 
+        }
+        nav ul { 
+            list-style: none; 
+            display: flex; 
+            gap: 1rem; 
+        }
+        nav a { 
+            color: white; 
+            text-decoration: none; 
+        }
+        nav a:hover { 
+            text-decoration: underline; 
+        }
+        .section { 
+            padding: 4rem 1rem; 
+            text-align: center; 
+        }
+        .bg-gradient-to-r { 
+            background: linear-gradient(to right, #4b0082, #800080); 
+        }
+        .text-white { 
+            color: white; 
+        }
+        .bg-gray-50 { 
+            background-color: #f9fafb; 
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+        }
+        h2 { 
+            font-size: 2rem; 
+            font-weight: bold; 
+            margin-bottom: 1.5rem; 
+        }
+        h3 { 
+            font-size: 1.5rem; 
+            font-weight: bold; 
+            margin: 2rem 0 1rem; 
+        }
+        p { 
+            font-size: 1.125rem; 
+            margin-bottom: 1rem; 
+        }
+        ul, ol { 
+            list-style-type: none; 
+            text-align: left; 
+            max-width: 600px; 
+            margin: 0 auto; 
+        }
+        li { 
+            margin-bottom: 0.5rem; 
+        }
+        footer { 
+            background: #4b0082; 
+            color: white; 
+            padding: 1rem; 
+            text-align: center; 
+        }
+        .post { 
+            max-width: 800px; 
+            margin: 0 auto 3rem; 
+            text-align: left; 
+        }
+        .post h3 { 
+            font-size: 1.75rem; 
+        }
+        .post p { 
+            font-size: 1.125rem; 
+            line-height: 1.6; 
+        }
     </style>
+    <script>
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        document.addEventListener('selectstart', function(e) { e.preventDefault(); });
+        document.addEventListener('dragstart', function(e) { e.preventDefault(); });
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                if (e.key === 'c' || e.key === 'C') {
+                    e.preventDefault();
+                }
+            }
+        });
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <nav>
@@ -80,8 +177,9 @@
                 <li><a href="about.html">Про мене</a></li>
                 <li><a href="tools.html">Інструменти</a></li>
                 <li><a href="blog.html">Блог</a></li>
-                <li><a href="contact.html">Контакти</a></li>
+                <li><a href="humor.html">Гумор</a></li>
                 <li><a href="price.html">Прайс</a></li>
+                <li><a href="contact.html">Контакти</a></li>
             </ul>
         </div>
     </nav>
@@ -103,7 +201,7 @@
                 <p><strong>🧭 Архетип — це не ярлик. Це напрямок.</strong><br>Архетип — не табличка «я такий».<br>Це компас. Він не дає відповіді. Він ставить питання. Відкриває двері.<br>Але заходити через ці двері — будеш тільки ти сам.</p>
                 <p><strong>🛠️ Що є на цьому сайті?</strong><br>Для кожного архетипу ми створили гайди. Не просто “опис”, а:<br>· що в тобі сильне, і як це активувати;<br>· які пастки тебе чекають на шляху;<br>· що робити, щоб не загрузнути в теорії;<br>· які конкретні дії тебе включають;<br>· як звучить твій шлях.<br>Ці гайди — це перехід від знання до практики.</p>
                 <p><strong>🗝️ Для кого це все?</strong><br>Для тих, хто готовий рухатись далі.<br>Не просто “читати цікаве”. А пробувати. Відчувати. Робити.<br>Тому доступ до гайдів — у закритому Telegram-каналі. Не для обмеження. А для концентрації. Для тих, хто дозрів.</p>
-                <p><strong>🔥 Якщо ти ще питаєш “що далі?”</strong><br>Зроби дію. Маленьку, але свою.<br>Прочитай гайд. Випиши собі одне питання звідти.<br>Виконай одну рекомендацію. Не все одразу. Одну.<br>Цього вистачить, щоб розпочати рух.</p>
+                <p><strong>🔥 Якщо ти ще питаєш “що далі?”</strong><br>Зроби дію. Маленьку, але свою.<br>Прочитай гайд. Випиши собі одне питання звідти.<br>Виконуй одну рекомендацію. Не все одразу. Одну.<br>Цього вистачить, щоб розпочати рух.</p>
                 <p>Бо інакше архетип так і залишиться просто словом.<br>А твоя суть — так і не прокинеться.</p>
             </div>
 

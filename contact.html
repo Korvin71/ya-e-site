@@ -37,46 +37,7 @@
         }
         return gk_fileData[filename] || "";
         }
-        </script><script type="text/javascript">
-    var gk_isXlsx = false;
-    var gk_xlsxFileLookup = {};
-    var gk_fileData = {};
-    function filledCell(cell) {
-      return cell !== '' && cell != null;
-    }
-    function loadFileData(filename) {
-    if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-        try {
-            var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-            var firstSheetName = workbook.SheetNames[0];
-            var worksheet = workbook.Sheets[firstSheetName];
-
-            // Convert sheet to JSON to filter blank rows
-            var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-            // Filter out blank rows (rows where all cells are empty, null, or undefined)
-            var filteredData = jsonData.filter(row => row.some(filledCell));
-
-            // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-            var headerRowIndex = filteredData.findIndex((row, index) =>
-              row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-            );
-            // Fallback
-            if (headerRowIndex === -1 || headerRowIndex > 25) {
-              headerRowIndex = 0;
-            }
-
-            // Convert filtered JSON back to CSV
-            var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-            csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-            return csv;
-        } catch (e) {
-            console.error(e);
-            return "";
-        }
-    }
-    return gk_fileData[filename] || "";
-    }
-</script><!DOCTYPE html>
+        </script><!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
@@ -86,21 +47,97 @@
     <meta name="keywords" content="контакти, самопізнання, консультації, telegram, архетипи, підтримка">
     <meta name="robots" content="index, follow">
     <style>
-        body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; }
-        nav { background: linear-gradient(to right, #4b0082, #800080); color: white; padding: 1rem; position: sticky; top: 0; z-index: 10; }
-        nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
-        nav h1 { font-size: 1.5rem; font-weight: bold; }
-        nav ul { list-style: none; display: flex; gap: 1rem; }
-        nav a { color: white; text-decoration: none; }
-        nav a:hover { text-decoration: underline; }
-        .section { padding: 4rem 1rem; text-align: center; }
-        .bg-gray-50 { background-color: #f9fafb; }
-        .container { max-width: 1200px; margin: 0 auto; }
-        h2 { font-size: 2rem; font-weight: bold; margin-bottom: 1.5rem; }
-        p { font-size: 1.125rem; margin-bottom: 1rem; }
-        a { color: #4b0082; text-decoration: underline; }
-        footer { background: #4b0082; color: white; padding: 1rem; text-align: center; }
+        body { 
+            font-family: 'Arial', sans-serif; 
+            margin: 0; 
+            padding: 0; 
+            user-select: none; 
+            -webkit-user-select: none; 
+            -moz-user-select: none; 
+            -ms-user-select: none; 
+        }
+        nav { 
+            background: linear-gradient(to right, #4b0082, #800080); 
+            color: white; 
+            padding: 1rem; 
+            position: sticky; 
+            top: 0; 
+            z-index: 10; 
+        }
+        nav .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+        nav h1 { 
+            font-size: 1.5rem; 
+            font-weight: bold; 
+        }
+        nav ul { 
+            list-style: none; 
+            display: flex; 
+            gap: 1rem; 
+        }
+        nav a { 
+            color: white; 
+            text-decoration: none; 
+        }
+        nav a:hover { 
+            text-decoration: underline; 
+        }
+        .section { 
+            padding: 4rem 1rem; 
+            text-align: center; 
+        }
+        .bg-gray-50 { 
+            background-color: #f9fafb; 
+        }
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
+        }
+        h2 { 
+            font-size: 2rem; 
+            font-weight: bold; 
+            margin-bottom: 1.5rem; 
+        }
+        p { 
+            font-size: 1.125rem; 
+            margin-bottom: 1rem; 
+        }
+        a { 
+            color: #4b0082; 
+            text-decoration: underline; 
+        }
+        footer { 
+            background: #4b0082; 
+            color: white; 
+            padding: 1rem; 
+            text-align: center; 
+        }
     </style>
+    <script>
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        document.addEventListener('selectstart', function(e) { e.preventDefault(); });
+        document.addEventListener('dragstart', function(e) { e.preventDefault(); });
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                if (e.key === 'c' || e.key === 'C') {
+                    e.preventDefault();
+                }
+            }
+        });
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <nav>
@@ -112,8 +149,9 @@
                 <li><a href="about.html">Про мене</a></li>
                 <li><a href="tools.html">Інструменти</a></li>
                 <li><a href="blog.html">Блог</a></li>
-                <li><a href="contact.html">Контакти</a></li>
+                <li><a href="humor.html">Гумор</a></li>
                 <li><a href="price.html">Прайс</a></li>
+                <li><a href="contact.html">Контакти</a></li>
             </ul>
         </div>
     </nav>

@@ -37,85 +37,97 @@
         }
         return gk_fileData[filename] || "";
         }
-        </script><script type="text/javascript">
-    var gk_isXlsx = false;
-    var gk_xlsxFileLookup = {};
-    var gk_fileData = {};
-    function filledCell(cell) {
-      return cell !== '' && cell != null;
-    }
-    function loadFileData(filename) {
-    if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-        try {
-            var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-            var firstSheetName = workbook.SheetNames[0];
-            var worksheet = workbook.Sheets[firstSheetName];
-
-            // Convert sheet to JSON to filter blank rows
-            var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-            // Filter out blank rows (rows where all cells are empty, null, or undefined)
-            var filteredData = jsonData.filter(row => row.some(filledCell));
-
-            // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-            var headerRowIndex = filteredData.findIndex((row, index) =>
-              row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-            );
-            // Fallback
-            if (headerRowIndex === -1 || headerRowIndex > 25) {
-              headerRowIndex = 0;
-            }
-
-            // Convert filtered JSON back to CSV
-            var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-            csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-            return csv;
-        } catch (e) {
-            console.error(e);
-            return "";
-        }
-    }
-    return gk_fileData[filename] || "";
-    }
-</script><!DOCTYPE html>
+        </script><!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Я є - Самопізнання через Архетипи</title>
-    <meta name="description" content="Проєкт «Я є.» — шлях до самопізнання через архетипи. Відкрийте свою суть із інструментами та консультаціями.">
-    <meta name="keywords" content="самопізнання, архетипи, психологія, саморозвиток, консультації, внутрішня суть">
+    <title>Головна - Самопізнання через Архетипи | Я є</title>
+    <meta name="description" content="Сайт Я є — самопізнання через архетипи. Інструменти, блог та консультації для твого внутрішнього зростання.">
+    <meta name="keywords" content="самопізнання, архетипи, психологія, внутрішній ріст">
     <meta name="robots" content="index, follow">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@700&family=Inter:wght@400&display=swap" rel="stylesheet">
     <style>
-        .font-lora { font-family: 'Lora', serif; }
-        .font-inter { font-family: 'Inter', sans-serif; }
+        body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; }
+        nav { background: linear-gradient(to right, #4b0082, #800080); color: white; padding: 1rem; position: sticky; top: 0; z-index: 10; }
+        nav .container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        nav h1 { font-size: 1.5rem; font-weight: bold; }
+        nav ul { list-style: none; display: flex; gap: 1rem; }
+        nav a { color: white; text-decoration: none; }
+        nav a:hover { text-decoration: underline; }
+        .bg-gradient-to-r { background: linear-gradient(to right, #4b0082, #800080); }
+        .from-indigo-800 { background: #4b0082; }
+        .to-purple-900 { background: #800080; }
+        .text-white { color: white; }
+        .py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+        .text-center { text-align: center; }
         .animate-fade-in { animation: fadeIn 1s ease-in; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        body {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-        img {
-            pointer-events: none;
-        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        h1 { font-size: 2.5rem; }
+        .text-5xl { font-size: 3rem; }
+        .md\:text-6xl { font-size: 3.75rem; }
+        .font-bold { font-weight: bold; }
+        .font-lora { font-family: 'Arial', sans-serif; }
+        .mb-4 { margin-bottom: 1rem; }
+        .text-xl { font-size: 1.25rem; }
+        .max-w-3xl { max-width: 48rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+        .bg-gray-50 { background-color: #f9fafb; }
+        .bg-white { background-color: white; }
+        img { max-width: 100%; height: auto; }
+        .max-w-full { max-width: 100%; }
+        .h-auto { height: auto; }
+        h2 { font-size: 1.875rem; }
+        .text-3xl { font-size: 1.875rem; }
+        .text-lg { font-size: 1.125rem; }
+        ol { list-style-type: decimal; padding-left: 1.5rem; }
+        .space-y-4 > :not([hidden]) ~ :not([hidden]) { margin-top: 1rem; }
+        .bg-indigo-900 { background: #4b0082; }
+        .p-4 { padding: 1rem; }
+        .mt-6 { margin-top: 1.5rem; }
+        .inline-block { display: inline-block; }
+        .bg-indigo-600 { background: #4c1d95; }
+        .px-8 { padding-left: 2rem; padding-right: 2rem; }
+        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+        .rounded-full { border-radius: 9999px; }
+        .hover\:bg-indigo-700:hover { background: #5b21b6; }
     </style>
+    <script>
+        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+        document.addEventListener('selectstart', function(e) { e.preventDefault(); });
+        document.addEventListener('dragstart', function(e) { e.preventDefault(); });
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey || e.metaKey) {
+                if (e.key === 'c' || e.key === 'C') {
+                    e.preventDefault();
+                }
+            }
+        });
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
 </head>
-<body class="bg-white font-inter">
-    <!-- Навігація -->
-    <nav class="bg-indigo-900 text-white p-4 sticky top-0 z-10">
-        <div class="container mx-auto flex justify-between items-center">
-            <h1 class="text-2xl font-bold font-lora">Я є.</h1>
-            <ul class="flex space-x-4">
-                <li><a href="index.html" class="hover:underline">Головна</a></li>
-                <li><a href="archetypes.html" class="hover:underline">Про архетипи</a></li>
-                <li><a href="about.html" class="hover:underline">Про мене</a></li>
-                <li><a href="tools.html" class="hover:underline">Інструменти</a></li>
-                <li><a href="blog.html" class="hover:underline">Блог</a></li>
-                <li><a href="contact.html" class="hover:underline">Контакти</a></li>
+<body>
+    <nav>
+        <div class="container">
+            <h1>Я є</h1>
+            <ul>
+                <li><a href="index.html">Головна</a></li>
+                <li><a href="archetypes.html">Про архетипи</a></li>
+                <li><a href="about.html">Про мене</a></li>
+                <li><a href="tools.html">Інструменти</a></li>
+                <li><a href="blog.html">Блог</a></li>
+                <li><a href="humor.html">Гумор</a></li>
                 <li><a href="price.html">Прайс</a></li>
+                <li><a href="contact.html">Контакти</a></li>
             </ul>
         </div>
     </nav>
@@ -187,25 +199,5 @@
     <footer class="bg-indigo-900 text-white text-center p-4">
         <p>© 2025 Я є. Усі права захищено.</p>
     </footer>
-
-    <script>
-        document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
-        document.addEventListener('keydown', function(e) {
-            if (e.ctrlKey || e.metaKey) {
-                if (e.key === 'c' || e.key === 'C') {
-                    e.preventDefault();
-                }
-            }
-        });
-        document.addEventListener('dragstart', function(e) { e.preventDefault(); });
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-    </script>
 </body>
 </html>
