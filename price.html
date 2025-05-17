@@ -37,53 +37,14 @@
         }
         return gk_fileData[filename] || "";
         }
-        </script><script type="text/javascript">
-    var gk_isXlsx = false;
-    var gk_xlsxFileLookup = {};
-    var gk_fileData = {};
-    function filledCell(cell) {
-      return cell !== '' && cell != null;
-    }
-    function loadFileData(filename) {
-    if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-        try {
-            var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-            var firstSheetName = workbook.SheetNames[0];
-            var worksheet = workbook.Sheets[firstSheetName];
-
-            // Convert sheet to JSON to filter blank rows
-            var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-            // Filter out blank rows (rows where all cells are empty, null, or undefined)
-            var filteredData = jsonData.filter(row => row.some(filledCell));
-
-            // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-            var headerRowIndex = filteredData.findIndex((row, index) =>
-              row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-            );
-            // Fallback
-            if (headerRowIndex === -1 || headerRowIndex > 25) {
-              headerRowIndex = 0;
-            }
-
-            // Convert filtered JSON back to CSV
-            var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-            csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-            return csv;
-        } catch (e) {
-            console.error(e);
-            return "";
-        }
-    }
-    return gk_fileData[filename] || "";
-    }
-</script><!DOCTYPE html>
+        </script><!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Прайс - Консультації та Інструменти Я є</title>
-    <meta name="description" content="Прайс на консультації, інструменти та Telegram-канал для самопізнання від Я є.">
-    <meta name="keywords" content="прайс, консультації, самопізнання, архетипи, ціни, telegram-канал">
+    <title>Прайс - Самопізнання через Архетипи | Я є</title>
+    <meta name="description" content="Вартість доступу до Telegram-каналу, окремих інструментів та індивідуальних консультацій від Я є. Знижки для військових, вчителів, пенсіонерів.">
+    <meta name="keywords" content="прайс, самопізнання, архетипи, консультації, гайди, знижки">
     <meta name="robots" content="index, follow">
     <style>
         body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; }
@@ -94,14 +55,18 @@
         nav a { color: white; text-decoration: none; }
         nav a:hover { text-decoration: underline; }
         .section { padding: 4rem 1rem; text-align: center; }
+        .bg-gradient-to-r { background: linear-gradient(to right, #4b0082, #800080); }
+        .text-white { color: white; }
         .bg-gray-50 { background-color: #f9fafb; }
         .container { max-width: 1200px; margin: 0 auto; }
         h2 { font-size: 2rem; font-weight: bold; margin-bottom: 1.5rem; }
-        .pricing { max-width: 600px; margin: 0 auto; text-align: left; font-size: 1.125rem; }
-        .pricing p { margin-bottom: 1rem; }
-        .highlight { font-weight: bold; color: #4b0082; }
-        a { color: #4b0082; text-decoration: underline; }
+        h3 { font-size: 1.5rem; font-weight: bold; margin: 2rem 0 1rem; }
+        p { font-size: 1.125rem; margin-bottom: 1rem; }
+        ul, ol { list-style-type: none; text-align: left; max-width: 600px; margin: 0 auto; }
+        li { margin-bottom: 0.5rem; }
         footer { background: #4b0082; color: white; padding: 1rem; text-align: center; }
+        .price-section { max-width: 800px; margin: 0 auto; text-align: left; }
+        .price-section p { font-size: 1.125rem; line-height: 1.6; }
     </style>
 </head>
 <body>
@@ -120,15 +85,46 @@
         </div>
     </nav>
 
-    <section class="bg-gray-50 section">
+    <section class="bg-gradient-to-r text-white section">
         <div class="container">
             <h2>Прайс</h2>
-            <div class="pricing">
-                <p>Що ти отримаєш у Telegram-каналі: <span class="highlight">щотижневі практики, спілкування, підтримка.</span></p>
-                <p>Вартість: <span class="highlight">300 грн/місяць</span>.</p>
-                <p>Окремі інструменти: <span class="highlight">200 грн/одноразово</span>.</p>
-                <p>Індивідуальні консультації: <span class="highlight">800 грн/година</span>.</p>
-                <p>Для детальної інформації звертайтесь через <a href="contact.html">контакти</a>.</p>
+            <p>Якщо коротко і чесно</p>
+        </div>
+    </section>
+
+    <section class="bg-gray-50 section">
+        <div class="container">
+            <div class="price-section">
+                <p>Це не супермаркет і не шоу.<br>Тут ти не купуєш “продукт” — ти заходиш у простір, де можна глянути в себе.<br>Без води, без унітазів з золота, але з душею і змістом.</p>
+
+                <h3>💬 Що ти отримаєш у Telegram-каналі</h3>
+                <ul>
+                    <li>щотижневі практики</li>
+                    <li>доступ до інструментів</li>
+                    <li>підтримку й спілкування, коли це справді потрібно</li>
+                    <li>місце, де можна не прикидатися</li>
+                </ul>
+                <p><strong>300 грн/місяць</strong></p>
+
+                <h3>🧰 Окремі інструменти</h3>
+                <p>гайд-листи, тести, методики</p>
+                <p><strong>200 грн одноразово</strong></p>
+
+                <h3>👥 Індивідуальні консультації</h3>
+                <p>одна година щирої розмови, без “псевдопсихології”, з реальністю і теплом</p>
+                <p><strong>800 грн/година</strong></p>
+
+                <h3>🎖️ Знижки — бо є речі, що важливіші за гроші</h3>
+                <p>Я не міністерство, але розумію ціну людського вкладу. Тому:</p>
+                <ul>
+                    <li>Військовим — 40% знижка</li>
+                    <li>Вчителям — 30% знижка</li>
+                    <li>Пенсіонерам — 30% (якщо такі справді з’являться — буду приємно здивований)</li>
+                </ul>
+                <p>Якщо ти один з них — просто напиши мені.<br>Документально нічого не треба, вірю на слово.<br>Хто бреше — той і без знижки собі знайде карму.</p>
+
+                <h3>📩 Якщо є питання — пиши</h3>
+                <p>Я людина. Не чат-бот.<br>Відповім, поясню, домовимось. Все по-людськи.</p>
             </div>
         </div>
     </section>
