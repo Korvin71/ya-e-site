@@ -76,6 +76,45 @@
     }
     return gk_fileData[filename] || "";
     }
+</script><script type="text/javascript">
+    var gk_isXlsx = false;
+    var gk_xlsxFileLookup = {};
+    var gk_fileData = {};
+    function filledCell(cell) {
+      return cell !== '' && cell != null;
+    }
+    function loadFileData(filename) {
+    if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+        try {
+            var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+            var firstSheetName = workbook.SheetNames[0];
+            var worksheet = workbook.Sheets[firstSheetName];
+
+            // Convert sheet to JSON to filter blank rows
+            var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+            // Filter out blank rows (rows where all cells are empty, null, or undefined)
+            var filteredData = jsonData.filter(row => row.some(filledCell));
+
+            // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+            var headerRowIndex = filteredData.findIndex((row, index) =>
+              row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+            );
+            // Fallback
+            if (headerRowIndex === -1 || headerRowIndex > 25) {
+              headerRowIndex = 0;
+            }
+
+            // Convert filtered JSON back to CSV
+            var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+            csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+            return csv;
+        } catch (e) {
+            console.error(e);
+            return "";
+        }
+    }
+    return gk_fileData[filename] || "";
+    }
 </script><!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -152,6 +191,7 @@
             font-size: 1.5rem; 
             font-weight: bold; 
             margin: 2rem 0 1rem; 
+            color: #2F4F4F; /* Темно-зелений колір для заголовків статей */
         }
         p { 
             font-size: 1.125rem; 
@@ -356,7 +396,38 @@
                 <p>Справжній.</p>
                 <p>Той, хто пройшов через темряву — і залишився собою.</p>
                 <p>І це — найбільше, що може зробити людина.</p>
-                <p>Бути світлом, яке нічого не нав'язує, але яке видно навіть у найгустішій темряві.</p>
+                <p>Бути світлом, яке нічого не нав’язує, але яке видно навіть у найгустішій темряві.</p>
+            </div>
+
+            <div class="post">
+                <h3>Навіщо знати свій архетип?</h3>
+                <p><em>Дата: 19 травня 2025</em></p>
+                <p>Це питання часто виникає одразу після першого знайомства з архетипами.</p>
+                <p>“Ну добре, я Вовк... чи Опікун... чи Мандрівник. І що з того?”<br>
+                “Це як знак зодіаку?”<br>
+                “Це щось для розваги?”<br>
+                “А мені воно треба взагалі?”</p>
+                <p>І відповідь тут проста: якщо не хочеш — не треба. Але якщо хочеш жити глибше — архетип може стати ключем.</p>
+                <p>Архетип — це не кліше, не коробка, не діагноз. Це наче внутрішній двигун, який давно працює — просто ти не знаєш, як він виглядає і що саме він тягне. Ти відчуваєш, що щось у тобі постійно діє, щось штовхає тебе до певних вчинків, відгукується на певні теми, людей, ситуації. І коли ти раптом бачиш свій архетип — багато що стає на місце. Це як назвати власний стиль життя, свою внутрішню мову.</p>
+                <p>І тоді:</p>
+                <ul>
+                    <li>Стає зрозуміло, чому ти дієш саме так.</li>
+                    <li>Зникає почуття "зі мною щось не так".</li>
+                    <li>З’являється повага до себе. Не гординя, а спокійна гідність.</li>
+                </ul>
+                <p>Це не обгортка — це твоє ядро. Ти можеш бути Піклувальником — і більше не соромитись того, що тобі важливо піклуватися. Ти можеш бути Бунтарем — і нарешті зрозуміти, чому тебе харить "нормальне життя". Ти можеш бути Любовником — і не лякатися своєї чуттєвості, а почати давати їй місце. А може, ти Вовк — і тобі просто треба вийти з клітки. І тоді не треба вигадувати собі “мотивацію” — вона вже є. Ти просто дозволяєш собі бути собою.</p>
+                <p>Це не “виправдання” — це усвідомлення. Ти не кажеш: “Я Воїн, тому я грубий.” Але можеш сказати: “Я Воїн. І тепер розумію, як направити силу — не руйнувати, а творити.”</p>
+                <p>А ще архетип пояснює твої конфлікти. Бо іноді сваришся не тому, що хтось поганий — а тому, що у вас різні архетипи, різні мови, різні болі. Вона — Маг, а ти — Лідер. І ви не вороги. Просто бачите світ по-різному.</p>
+                <p>І найголовніше: архетип — це не ярлик. Це компас. Коли ти загублений, коли не знаєш, куди рухатись, коли відчуваєш себе не тим і не там — архетип може бути тією точкою, з якої починається повернення додому. Це не про ідеальність. Це про чесність із собою.</p>
+                <p>Тому, якщо коротко: Навіщо знати свій архетип?</p>
+                <ul>
+                    <li>Щоб зрозуміти себе.</li>
+                    <li>Щоб більше не витрачати енергію на боротьбу з власною природою.</li>
+                    <li>Щоб знайти свій шлях — а не копіювати чужий.</li>
+                    <li>Щоб поважати себе. І тих, хто інший.</li>
+                    <li>Щоб перестати ховатися. І нарешті жити.</li>
+                </ul>
+                <p>Це не обов’язково. Але якщо відгукується — значить, пора.</p>
             </div>
         </div>
     </section>
