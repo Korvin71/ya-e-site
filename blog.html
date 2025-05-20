@@ -37,7 +37,46 @@
         }
         return gk_fileData[filename] || "";
         }
-        </script><!DOCTYPE html>
+        </script><script type="text/javascript">
+    var gk_isXlsx = false;
+    var gk_xlsxFileLookup = {};
+    var gk_fileData = {};
+    function filledCell(cell) {
+      return cell !== '' && cell != null;
+    }
+    function loadFileData(filename) {
+    if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+        try {
+            var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+            var firstSheetName = workbook.SheetNames[0];
+            var worksheet = workbook.Sheets[firstSheetName];
+
+            // Convert sheet to JSON to filter blank rows
+            var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+            // Filter out blank rows (rows where all cells are empty, null, or undefined)
+            var filteredData = jsonData.filter(row => row.some(filledCell));
+
+            // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+            var headerRowIndex = filteredData.findIndex((row, index) =>
+              row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+            );
+            // Fallback
+            if (headerRowIndex === -1 || headerRowIndex > 25) {
+              headerRowIndex = 0;
+            }
+
+            // Convert filtered JSON back to CSV
+            var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+            csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+            return csv;
+        } catch (e) {
+            console.error(e);
+            return "";
+        }
+    }
+    return gk_fileData[filename] || "";
+    }
+</script><!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
@@ -146,37 +185,6 @@
             margin-bottom: 2rem; 
         }
     </style>
-    <script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-          if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-              try {
-                  var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                  var firstSheetName = workbook.SheetNames[0];
-                  var worksheet = workbook.Sheets[firstSheetName];
-                  var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                  var filteredData = jsonData.filter(row => row.some(filledCell));
-                  var headerRowIndex = filteredData.findIndex((row, index) =>
-                    row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                  );
-                  if (headerRowIndex === -1 || headerRowIndex > 25) {
-                    headerRowIndex = 0;
-                  }
-                  var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex));
-                  return XLSX.utils.sheet_to_csv(csv, { header: 1 });
-              } catch (e) {
-                  console.error(e);
-                  return "";
-              }
-          }
-          return gk_fileData[filename] || "";
-        }
-    </script>
     <script>
         document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
         document.addEventListener('selectstart', function(e) { e.preventDefault(); });
@@ -377,6 +385,48 @@
                     <li>Щоб перестати ховатися. І нарешті жити.</li>
                 </ul>
                 <p>Це не обов’язково. Але якщо відгукується — значить, пора.</p>
+            </div>
+
+            <div class="post">
+                <h3>Найсмішніша трагедія людства — пам’ять у тіні</h3>
+                <p><em>Дата: 20 травня 2025</em></p>
+                <p><strong>Свідомість — як той чувак без пам’яті, що живе серед архіву</strong></p>
+                <p>Уяви собі три персонажі:</p>
+                <ul>
+                    <li><strong>Тіло</strong> — старий дід, що пам’ятає все. І не просто пам’ятає, а ще й бурчить: “А пам’ятаєш 1997-го, як ти сказав ‘так нічого’ замість ‘ні, мені боляче’? От тому в тебе тут і смикає.”</li>
+                    <li><strong>Підсвідомість</strong> — архіваріус, що сидить у темряві, курить в кутку і час від часу шепоче: “А ось це тобі ще з минулого життя... не подякуєш.”</li>
+                    <li>І, нарешті, <strong>Свідомість</strong> — такий собі Вася з амнезією. Він бігає по цьому складу, дивиться по сторонах і кричить: “А чого мені так погано? Що це за запах? Чому мені хочеться плакати, коли йде дощ і пахне яблуками?!”</li>
+                </ul>
+                <p>___________________________</p>
+                <p><strong>Абсурд вищої проби</strong></p>
+                <p>Ми щодня приймаємо рішення, живемо, кохаємо, працюємо — не маючи повного доступу до того, хто ми є насправді.</p>
+                <p>А тіло, як вірний пес, терпить: “Ну нічого, він ще дійде. Ми ще почекаємо. Он уже мурашки побігли — може, згадає щось.”</p>
+                <p>І підсвідомість зітхає: “Добре, ще один сон йому підкину. Може, хоч натяк зрозуміє.”</p>
+                <p>___________________________</p>
+                <p><strong>Найсмішніше й найстрашніше одночасно</strong></p>
+                <ul>
+                    <li>Ти можеш не пам’ятати, чому тебе бісить, коли тебе перебивають.</li>
+                    <li>Не знати, чому після певного запаху хочеться втекти.</li>
+                    <li>Не розуміти, чому поруч з однією людиною тобі погано, хоча вона усміхається.</li>
+                </ul>
+                <p>Але тіло знає.</p>
+                <p>І підсвідомість штовхає.</p>
+                <p>А ти, бідолашний Вася-Свідомість, стоїш посеред усього цього і питаєш: “Я що, знову щось не так зробив?”</p>
+                <p>___________________________</p>
+                <p><strong>То як же жити в цьому божевіллі?</strong></p>
+                <ol>
+                    <li><strong>Не панікувати.</strong><br>Ти не глючиш — ти просто почав слухати. А це вже 90% справи.</li>
+                    <li><strong>Довіряти тілу.</strong><br>Якщо щось реагує — не ігноруй. Це не “дурниця”, це пошта з глибини.</li>
+                    <li><strong>Спостерігай.</strong><br>Питай себе: “Що зараз у мені говорить? Це я — чи архів?”</li>
+                    <li><strong>Не поспішай.</strong><br>Це не sprint, це життя. І воно все одно підкине нові загадки.</li>
+                </ol>
+                <p>___________________________</p>
+                <p><strong>Висновок простий, як дріт:</strong></p>
+                <p>Свідомість — не керівник.</p>
+                <p>Вона — перекладач між світами.</p>
+                <p>І коли ти починаєш з нею працювати, як з інструментом, а не як з центром всесвіту — о, тоді починається найцікавіше.</p>
+                <p>Бо відкривається дверцята.</p>
+                <p>І ти вже не Вася, а хтось, хто пам’ятає більше, ніж учора.</p>
             </div>
         </div>
     </section>
