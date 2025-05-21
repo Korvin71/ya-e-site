@@ -76,6 +76,45 @@
     }
     return gk_fileData[filename] || "";
     }
+</script><script type="text/javascript">
+    var gk_isXlsx = false;
+    var gk_xlsxFileLookup = {};
+    var gk_fileData = {};
+    function filledCell(cell) {
+      return cell !== '' && cell != null;
+    }
+    function loadFileData(filename) {
+    if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+        try {
+            var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+            var firstSheetName = workbook.SheetNames[0];
+            var worksheet = workbook.Sheets[firstSheetName];
+
+            // Convert sheet to JSON to filter blank rows
+            var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+            // Filter out blank rows (rows where all cells are empty, null, or undefined)
+            var filteredData = jsonData.filter(row => row.some(filledCell));
+
+            // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+            var headerRowIndex = filteredData.findIndex((row, index) =>
+              row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+            );
+            // Fallback
+            if (headerRowIndex === -1 || headerRowIndex > 25) {
+              headerRowIndex = 0;
+            }
+
+            // Convert filtered JSON back to CSV
+            var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+            csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+            return csv;
+        } catch (e) {
+            console.error(e);
+            return "";
+        }
+    }
+    return gk_fileData[filename] || "";
+    }
 </script><!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -183,6 +222,38 @@
             font-size: 1.25rem; 
             font-style: italic; 
             margin-bottom: 2rem; 
+        }
+        .mt-6 { 
+            margin-top: 1.5rem; 
+        }
+        .mt-4 { 
+            margin-top: 1rem; 
+        }
+        .inline-block { 
+            display: inline-block; 
+        }
+        .bg-indigo-600 { 
+            background: #4c1d95; 
+        }
+        .text-white { 
+            color: white; 
+        }
+        .px-8 { 
+            padding-left: 2rem; 
+            padding-right: 2rem; 
+        }
+        .py-3 { 
+            padding-top: 0.75rem; 
+            padding-bottom: 0.75rem; 
+        }
+        .rounded-full { 
+            border-radius: 9999px; 
+        }
+        .hover\:bg-indigo-700:hover { 
+            background: #5b21b6; 
+        }
+        .text-center { 
+            text-align: center; 
         }
     </style>
     <script>
@@ -382,7 +453,7 @@
                     <li>Щоб більше не витрачати енергію на боротьбу з власною природою.</li>
                     <li>Щоб знайти свій шлях — а не копіювати чужий.</li>
                     <li>Щоб поважати себе. І тих, хто інший.</li>
-                    <li>Щоб перестати ховатися. І нарешті жити.</li>
+                    <li>Щоб перестати ховатися. І нарешти жити.</li>
                 </ul>
                 <p>Це не обов’язково. Але якщо відгукується — значить, пора.</p>
             </div>
@@ -427,6 +498,11 @@
                 <p>І коли ти починаєш з нею працювати, як з інструментом, а не як з центром всесвіту — о, тоді починається найцікавіше.</p>
                 <p>Бо відкривається дверцята.</p>
                 <p>І ти вже не Вася, а хтось, хто пам’ятає більше, ніж учора.</p>
+            </div>
+
+            <div class="text-center">
+                <a href="tools.html" class="mt-6 inline-block bg-indigo-600 text-white px-8 py-3 rounded-full hover:bg-indigo-700">Почати шлях</a>
+                <a href="contact.html" class="mt-4 inline-block bg-indigo-600 text-white px-8 py-3 rounded-full hover:bg-indigo-700">Задати питання</a>
             </div>
         </div>
     </section>
